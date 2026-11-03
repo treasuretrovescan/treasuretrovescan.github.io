@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TreasureTroveScan — Sell It While It's Hot</title>
+<meta name="description" content="Tired of selling below melt and getting a $1 bid? Treasure Trove Scan finds buyers who are already looking in your Facebook groups. Fair price both ways.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <nav class="menu">
+    <button data-go="home">🏠 Home</button>
+    <button data-go="guide">📖 Guide</button>
+    <button data-go="pricing">💲 Prices</button>
+    <button data-go="about">👋 About</button>
+    <button data-go="contact">✉️ Contact</button>
+    <button data-go="faq">❓ FAQ</button>
+    <button id="loginNavBtn" class="loginbtn" data-go="login">Log In</button>
+  </nav>
+</header>
+
+<div class="brandhead">
+  <img src="logo.webp" class="brandimg" alt="TreasureTroveScan dragon guarding a treasure chest">
+  <div class="brandmid">
+    <div class="brandname">TreasureTroveScan</div>
+    <p class="brandtag">Scan the groups. Catch hot buyers. Sell above melt.</p>
+  </div>
+  <img src="logo.webp" class="brandimg flip" alt="" aria-hidden="true">
+</div>
+
+<!-- HOME -->
+<section class="screen" id="screen-home">
+  <div class="tickerwrap"><div class="ticker" id="tickerTrack"><span class="tick">Loading live spot prices…</span></div></div>
+  <div class="hero">
+    <h1>Tired of selling <span class="red">below melt</span>?</h1>
+    <p class="big">You post and post. You scroll for hours. Then one guy bids <strong>one dollar</strong>.</p>
+    <p class="big">There is a better way. <strong>Find buyers who are already looking. Sell it while it's hot.</strong></p>
+    <div class="videobox">
+      <video id="adVideo" controls playsinline preload="metadata" poster="">
+        <source src="cartoon.mp4" type="video/mp4">
+        <track kind="subtitles" src="captions.vtt" srclang="en" label="English" default>
+      </video>
+      <p class="capnote">▶ Press play. Turn on CC for captions.</p>
+    </div>
+    <div class="videobox">
+      <h2 class="howtitle">See how it works</h2>
+      <video controls playsinline preload="metadata">
+        <source src="how-it-works.mp4" type="video/mp4">
+      </video>
+      <p class="capnote">Fill the form. Send coin photos. Get your pack back. Post it and sell.</p>
+    </div>
+    <button class="cta" data-go="login">Join Free — Start Now</button>
+    <p class="note">You paste posts from your groups. We score them in seconds and stack the hot buyers on top. No Facebook password. No bots.</p>
+    <p class="fair">Fair both ways: buyers don't get ripped off. You don't rip off others. You still get <strong>above melt</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h2 class="center">See it work</h2>
+    <p>A buyer post from a group:</p>
+    <p class="samplepost">"WTB Morgan dollars, looking for 2-3 raw ones, cash ready, how much shipped?"</p>
+    <p class="center"><span class="score hot">82/100 🔥 HOT</span></p>
+    <p class="center">Cash ready, asking the price — that is a buyer who wants it NOW. The Radar puts him on top of your list.</p>
+  </div>
+  <h2 class="pick">Pick one. Tap a big button.</h2>
+  <div class="waffle">
+    <button class="tile" data-go="login"><span>🔥</span>Find Hot Buyers</button>
+    <button class="tile" data-go="login"><span>🧮</span>Price It Right</button>
+    <button class="tile" data-go="login"><span>✍️</span>Write My Post</button>
+    <button class="tile" data-go="guide"><span>📖</span>Selling Guide</button>
+    <button class="tile" data-go="pricing"><span>🛠️</span>$100 Setup Help</button>
+    <button class="tile" data-go="about"><span>🇺🇸</span>Our Story</button>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section class="screen hidden" id="screen-login">
+  <div class="card narrow">
+    <h1 id="authTitle">Welcome back</h1>
+    <div class="tabs">
+      <button id="showLogin" class="tab active">Log In</button>
+      <button id="showSignup" class="tab">Join Free</button>
+    </div>
+    <form id="loginForm">
+      <label>Your name for this app <input required name="username" autocomplete="username"></label>
+      <label>Your password <input required name="password" type="password" autocomplete="current-password"></label>
+      <button class="cta small" type="submit">Log In</button>
+    </form>
+    <form id="signupForm" class="hidden">
+      <label>Your business name <input required name="business" placeholder="Like: My Coin Shop"></label>
+      <label>Pick a username <input required name="username" autocomplete="username"></label>
+      <label>Pick a password <input required name="password" type="password" autocomplete="new-password"></label>
+      <label>What do you sell? <input name="niche" placeholder="Coins, plants, crafts, help with homes…"></label>
+      <button class="cta small" type="submit">Join Free</button>
+    </form>
+    <p class="note">Your account lives in this web browser on this phone or computer. That is how it stays free.</p>
+    <p class="note"><strong>Write your password down.</strong> Your account lives only in this browser, so we can not reset it for you.</p>
+    <p id="authMsg" class="msg"></p>
+  </div>
+</section>
+
+<!-- APP -->
+<section class="screen hidden" id="screen-app">
+  <p class="who"><span id="whoami"></span> <button id="logoutBtn" class="mini">Log out</button></p>
+  <div class="waffle tools">
+    <button class="tile sm" data-tool="radar"><span>🔥</span>Hot Buyers</button>
+    <button class="tile sm" data-tool="calc"><span>🧮</span>Price Tool</button>
+    <button class="tile sm" data-tool="builder"><span>✍️</span>Post Builder</button>
+    <button class="tile sm" data-tool="setup2"><span>⚙️</span>My Setup</button>
+  </div>
+
+  <div class="toolpanel" id="tool-radar">
+    <div class="card">
+      <h2>Step 1 — Add your groups</h2>
+      <p>Type a group name. Or paste the group link.</p>
+      <form id="groupForm">
+        <label>Group name or link <input required name="name" placeholder="Paste it here"></label>
+        <label>Where is it?
+          <select name="platform"><option>Facebook Group</option><option>Facebook Page</option><option>Instagram</option><option>YouTube</option><option>TikTok</option><option>Whatnot</option><option>Palmstreet</option><option>Reddit</option><option>Other</option></select>
+        </label>
+        <button class="cta small" type="submit">Add Group</button>
+      </form>
+      <ul id="groupList" class="list"></ul>
+    </div>
+    <div class="card">
+      <h2>Step 2 — Words buyers use</h2>
+      <p>One word or phrase on each line. We look for these.</p>
+      <textarea id="keywords" rows="7"></textarea>
+      <button id="saveKeywords" class="cta small">Save Words</button>
+    </div>
+    <div class="card">
+      <h2>Step 3 — Paste a post. Get a score.</h2>
+      <p>See a post in a group? Paste it here. We tell you if it is hot.</p>
+      <form id="postForm">
+        <label>Which group? <select id="postSource" name="source"></select></label>
+        <label>Paste the post <textarea required name="text" rows="4" placeholder="Paste the words here"></textarea></label>
+        <div class="row">
+          <label>Comments <input name="comments" type="number" min="0" value="0"></label>
+          <label>Likes <input name="reactions" type="number" min="0" value="0"></label>
+        </div>
+        <button class="cta small" type="submit">Score It</button>
+      </form>
+      <div id="hotList"></div>
+    </div>
+    <div class="card">
+      <h2>What is hot right now</h2>
+      <div id="topics"><p>Score some posts. Your hot list will show here.</p></div>
+      <button id="seedBtn" class="tilebtn">👀 Show me how it works</button>
+      <button id="exportBtn" class="tilebtn">⬇ Save my list (CSV)</button>
+    </div>
+  </div>
+
+  <div class="toolpanel hidden" id="tool-calc">
+    <div class="card">
+      <h2>Price Tool — never sell too cheap</h2>
+      <p>Fill in the boxes. We do the math.</p>
+      <label>How many troy ounces? <input id="calcOz" type="number" step="0.01" value="1"></label>
+      <label>Spot price (per ounce) <input id="calcSpot" type="number" step="0.01" placeholder="Like: 53.50"></label>
+      <label>Extra you want to earn (%) <input id="calcPrem" type="number" step="0.5" value="10"></label>
+      <label>Card fee (%) <input id="calcFee" type="number" step="0.1" value="3.5"></label>
+      <label>Shipping you charge ($) <input id="calcShip" type="number" step="0.50" value="8"></label>
+      <button id="calcBtn" class="cta small">Do The Math</button>
+      <p id="calcOut" class="outbox"></p>
+    </div>
+  </div>
+
+  <div class="toolpanel hidden" id="tool-builder">
+    <div class="card">
+      <h2>Post Builder</h2>
+      <label>Your coin photo <input id="bPhoto" type="file" accept="image/*"></label>
+      <img id="bPhotoPreview" class="photopreview hidden" alt="Your coin photo">
+      <p class="note">Your photo stays on your phone. Want our team to write the post FROM your photos? Email the photos and your price to treasuretrovescan.noreply@gmail.com — we send back a ready-to-post write-up, hashtags and all.</p>
+      <label>What are you selling? <input id="bItem" placeholder="Like: 2023 Silver Libertad, 1 ounce"></label>
+      <label>Price ($) <input id="bPrice" type="number" step="1"></label>
+      <label>When does it end? <input id="bTerms" placeholder="Like: Ends in 24 hours"></label>
+      <button id="buildListing" class="cta small">Make My Post</button>
+      <p id="listingOut" class="outbox"></p>
+      <button id="copyListing" class="tilebtn">📋 Copy Post</button>
+      <hr>
+      <h2>Winner Note</h2>
+      <label>Shipping
+        <select id="bShipTier"><option value="8">Padded mailer — $8</option><option value="13">Small box — $13</option></select>
+      </label>
+      <button id="buildWinner" class="cta small">Make Winner Note</button>
+      <p id="winnerOut" class="outbox"></p>
+      <button id="copyWinner" class="tilebtn">📋 Copy Note</button>
+    </div>
+  </div>
+
+  <div class="toolpanel hidden" id="tool-setup2">
+    <div class="card">
+      <h2>My Setup</h2>
+      <label>Business name <input id="setBusiness"></label>
+      <label>What I sell <input id="setNiche"></label>
+      <label>My email <input id="setEmail" type="email"></label>
+      <label>Your shipping line (goes in your posts) <input id="setShip" placeholder="Like: $8 padded mailer / $13 small box"></label>
+      <label>Your pay line (goes in your posts) <input id="setPay" placeholder="Like: PayPal G&S, Venmo, CashApp $you"></label>
+      <label>Slack or Discord alert link (free) <input id="setWebhook" placeholder="Paste link here, or leave blank"></label>
+      <p class="note">Paste your link here and hot buyers ping your phone.</p>
+      <label class="check"><input type="checkbox" id="alertWebhook"> Send hot alerts to that link</label>
+      <button id="saveSettings" class="cta small">Save</button>
+      <p id="settingsMsg" class="msg"></p>
+      <hr>
+      <h2>My Setup Pack</h2>
+      <p>Got a pack from us by email? Load it here. All your groups, words and info fill in at once.</p>
+      <label>Pick my pack file <input id="packFile" type="file" accept=".json,application/json"></label>
+      <button id="importPack" class="tilebtn">📥 Load My Pack</button>
+      <button id="exportPack" class="tilebtn">📤 Save a copy of my setup</button>
+      <p id="packMsg" class="msg"></p>
+      <hr>
+      <h2>Words you can copy for your ads</h2>
+      <p id="adCopy" class="outbox"></p>
+      <button id="copyAd" class="tilebtn">📋 Copy Ad Words</button>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="screen hidden" id="screen-guide">
+  <h1 class="ptitle">Selling Guide</h1>
+  <p class="big center">Easy steps. Plain words. This is how good sellers do it.</p>
+  <p class="big center"><strong>Tap a big button:</strong></p>
+  <div class="tiles guide-tiles">
+    <button class="tile gtab active" data-guide="g1"><span>🪙📸</span>Groups &amp; Photos</button>
+    <button class="tile gtab" data-guide="g2"><span>💲🤝</span>Price &amp; Pay</button>
+    <button class="tile gtab" data-guide="g3"><span>📦⭐</span>Ship &amp; Trust</button>
+  </div>
+  <div class="card gpanel" id="g1">
+    <h2>Pick good groups</h2>
+    <ul>
+      <li>Pick groups with rules and with leaders who watch them. Bad groups are full of scams.</li>
+      <li>No Rule Card yet? Read the group's rules first — or let us do it in your setup.</li>
+      <li>Good search words: “silver buy sell trade”, “coin buy sell trade”.</li>
+      <li><strong>Private groups: we do not support them.</strong> Locked groups hide their rules and posts, and we never ask for your password. See the FAQ page for the full why.</li>
+    </ul>
+    <h2>We read the group rules for you</h2>
+    <ul>
+      <li>Every group has its own rules. Reading them all takes hours. <strong>You do not have to.</strong></li>
+      <li>When you get set up with us, we read the rules of YOUR groups for you.</li>
+      <li>You get a simple <strong>Rule Card</strong> for each of your groups, in plain words: how sales end, what photos they want, how you can take pay, and how your post must look so it does not get taken down.</li>
+      <li>Your Rule Cards come in your pack email. Keep them on your phone. Look before you post. That is it.</li>
+    </ul>
+    <p class="samplepost"><strong>Sample Rule Card — "Silver Stackers BST":</strong><br>Sales end 24 hours after the LAST bid. Photos: your own, with name + date paper. Pay: PayPal or Venmo Goods & Services only. Post must start with year + what it is.</p>
+    <ul>
+    </ul>
+    <h2>Take good photos — the light box way</h2>
+    <p>A light box is a small white box with soft lights inside. It makes a coin look bright and clean, with no dark shadows. Good photos sell faster — and for more money.</p>
+    <img src="guide-lightbox.jpg" alt="A light box set up to photograph a coin" class="guideimg">
+    <ul>
+      <li><strong>Best way:</strong> a small light box (they are cheap online). Coin on a little clear stand inside. Phone in front. Tap to focus. Snap it.</li>
+      <li><strong>No light box yet?</strong> Curve a big white paper up a wall for your background, sit by a bright window in the daytime, and turn the flash OFF. Daylight is free and it works.</li>
+      <li>Front and back, every time. Fill the whole photo with the coin — big, not tiny.</li>
+      <li>Put the coin next to a paper with your name and today's date on it. That proves it is yours.</li>
+      <li>Show any marks or damage. Tell the truth. Buyers trust you when you do.</li>
+      <li>Do not clean a coin. Cleaning makes it worth less.</li>
+    </ul>
+  </div>
+  <div class="card gpanel hidden" id="g2">
+    <h2>Price it fair</h2>
+    <ul>
+      <li>First, know the melt price. That is the floor. Do not go under it.</li>
+      <li>Look at sold prices. Not wish prices.</li>
+      <li>Use our Price Tool. It adds your costs so you do not lose money.</li>
+      <li>No bids at your price? Wrong group, or wrong time. That is why the Radar helps.</li>
+    </ul>
+    <h2>The right words sell it</h2>
+    <ul>
+      <li>First line of your post: say what it is. Year. Weight. What it is made of. Buyers decide in two seconds.</li>
+      <li>Bad words: "Nice coin!! Best price!!!" — nobody trusts yelling.</li>
+      <li>Good words: "2021 Silver Libertad, 1 oz, .999 silver. $85 shipped. I combine shipping." Short. True. Clear.</li>
+      <li><strong>We write yours for you.</strong> Your pack comes with your post words and your winner notes, filled in with your pay apps and your shipping prices. You just copy, paste, post.</li>
+    </ul>
+    <h2>Get paid safe</h2>
+    <ul>
+      <li>Use PayPal Goods & Services, or Venmo Goods & Services. They protect both sides.</li>
+      <li>Friends & Family does not protect you. Scammers love to ask for it.</li>
+      <li>Zelle can not be taken back. Use it only with people you know.</li>
+      <li>Do not ship till the money is in. Never pay back an “extra” payment. That is a trick.</li>
+      <li>If a buyer is in a big rush, slow down. Real buyers wait.</li>
+    </ul>
+  </div>
+  <div class="card gpanel hidden" id="g3">
+    <h2>Ship it right</h2>
+    <ul>
+      <li>Wrap each coin so it can not move or rub.</li>
+      <li>Use a strong padded mailer or a small box.</li>
+      <li>Always use tracking. Add insurance for big sales.</li>
+      <li>Take a photo of the pack job. Save your chats till the buyer gets it.</li>
+      <li>Send the buyer the tracking number. Say thank you.</li>
+    </ul>
+    <h2>Trust is the real money</h2>
+    <ul>
+      <li>Help in the group. Answer questions. Do not just sell.</li>
+      <li>Ship fast. Price fair. Tell the truth.</li>
+      <li>People remember your name. Good names get good bids.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="screen hidden" id="screen-pricing">
+  <h1 class="ptitle">Prices</h1>
+  <div class="card narrow">
+    <h2>Join: Free</h2>
+    <p>Make an account. Use the tools. No card.</p>
+    <h2>Setup help: $100, one time</h2>
+    <p><strong>Here is how it works. It is easy:</strong></p>
+    <ul>
+      <li>1️⃣ <strong>You fill in one short form.</strong> Five minutes. Plain words. What you sell, your group names or links, your pay apps, your shipping prices.</li>
+      <li>2️⃣ <strong>Our system builds your Setup Pack</strong> from your answers: your groups, your word list, your safe low prices, your post words and winner notes — all filled in with your info.</li>
+      <li>3️⃣ <strong>You get the pack by email. You tap one button to load it.</strong> Done. Your app is set up. No typing it all in by hand.</li>
+    </ul>
+    <p>What is in your pack:</p>
+    <ul>
+      <li>✅ Your groups, loaded</li>
+      <li>✅ Your word list, made for what you sell</li>
+      <li>✅ Your safe low prices, so you don't sell too cheap</li>
+      <li>✅ Your post words and winner notes, with your pay apps and shipping prices</li>
+      <li>✅ Your hot-buyer alerts set up in Slack or Discord, and tested with you</li>
+      <li>✅ <strong>Rule Cards for your groups</strong> — we read the rules so you don't spend hours on them</li>
+      <li>✅ <strong>Photo help</strong> — the light box steps, in plain words with pictures</li>
+      <li>✅ A short how-to in plain words</li>
+    </ul>
+    <p><strong>It all comes to you by email.</strong> Your pack, your Rule Cards, your photo steps, your post words — one email, yours to keep on your phone.</p>
+    <button class="cta small" data-go="setupform">Start My Setup Form</button>
+    <h2>How setup works — step by step</h2>
+    <ul>
+      <li><strong>Step 1 — You fill in the form.</strong> Five minutes. Your groups, your pay apps, your shipping prices. (We NEVER ask for your Facebook password. Ever.)</li>
+      <li><strong>Step 2 — Our team reads it.</strong> A real check of your answers, so nothing is missed.</li>
+      <li><strong>Step 3 — Our system builds your pack.</strong> Your groups loaded. Your word list made for what you sell. Your safe prices set. Your post words and winner notes written with your pay apps in them.</li>
+      <li><strong>Step 4 — Our team reads your group rules.</strong> You get a plain-words Rule Card for each group, so you never have to dig through the rules yourself.</li>
+      <li><strong>Step 5 — One email lands in your inbox.</strong> It comes from our no-reply mail box, with your pack, your Rule Cards, and photo tips inside.</li>
+      <li><strong>Step 6 — You tap one button.</strong> Open the app, tap "Load My Pack," pick the file. Everything fills in at once.</li>
+      <li><strong>Step 7 — You sell while it's hot.</strong> Paste a post, see the score, sell to the hot buyers first.</li>
+    </ul>
+    <p>Most packs go out within 1–2 business days of your form landing.</p>
+    <h2>After that</h2>
+    <p>Free while we test. Monthly plans come later. Today, the only thing you can pay for is setup help — and only if you want it.</p>
+    <p><strong>Who you are paying:</strong> The Tricolor Treasure Trove — a real coin and bullion seller, not a big company.</p>
+    <p><strong>How you pay:</strong> we talk first by email. You pay after we talk. If we can not set you up, you do not pay. Paid and we fail? Full refund.</p>
+    <p><strong>Your info stays yours:</strong> your account and your lists live on YOUR phone or computer. Not on our computers.</p>
+    <button class="cta small" data-go="contact">Ask About Setup</button>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="screen hidden" id="screen-about">
+  <h1 class="ptitle">About Us</h1>
+  <div class="card narrow">
+    <p>A real seller made this. He sells coins in Facebook groups.</p>
+    <p>He did the $1-start sales, like everyone said to do. He lost money. He watched good silver sell for less than melt.</p>
+    <p>One group over, buyers were asking for the same coin. He just never saw them.</p>
+    <p>So he built this. Watch who wants to buy first. Then sell. Fair price for the buyer. Fair price — above melt — for you.</p>
+    <p><strong>Small business built this country. We are here to help small business win.</strong> 🇺🇸</p>
+    <button class="cta small" data-go="login">Join Free</button>
+  </div>
+</section>
+
+<!-- SETUP FORM -->
+<section class="screen hidden" id="screen-setupform">
+  <h1 class="ptitle">Setup Form</h1>
+  <div class="card narrow">
+    <p>Answer these. That is all you have to do. We build your pack from this.</p>
+    <p><a class="cta" style="display:block;text-align:center;text-decoration:none" href="https://docs.google.com/forms/d/e/1FAIpQLSdc5zlgjIx-904fa__1jcsy7pTDdXPIpkvTgLcor3gdkgbZug/viewform" target="_blank" rel="noopener">📋 Open the Setup Form</a></p>
+    <p class="note">That opens our Google form. Five minutes, plain words. Or answer right here instead — same questions:</p>
+    <form id="setupForm">
+      <label>Your name <input required name="name"></label>
+      <label>Your email (we send your pack here) <input required name="email" type="email"></label>
+      <label>Your business name <input required name="business"></label>
+      <label>What do you sell? <input required name="niche" placeholder="Like: silver coins and bars"></label>
+      <label>Your groups — one name or link on each line
+        <textarea required name="groups" rows="5" placeholder="Paste your group names or links here, one on each line"></textarea></label>
+      <label>Your pay apps <input name="payapps" placeholder="Like: PayPal me@email.com, Venmo @me, CashApp $me"></label>
+      <label>Your shipping prices <input name="shipping" placeholder="Like: $8 small pack, $13 box"></label>
+      <label>Anything special about your groups' rules? (you can skip this)
+        <textarea name="grouprules" rows="3" placeholder="Like: auctions end 24 hours after the last bid. Skip it if you don't know — we will check, or ask you for a picture of the rules page."></textarea></label>
+      <label>Your main things you sell — one on each line (you can skip this)
+        <textarea name="items" rows="4" placeholder="Like: 1 oz silver rounds&#10;Morgan dollars"></textarea></label>
+      <label>How should we send hot alerts?
+        <select name="alerts"><option>Slack or Discord link</option><option>Just in the app</option></select></label>
+      <button class="cta small" type="submit">Send My Answers</button>
+      <p id="setupMsg" class="msg"></p>
+    </form>
+    <p class="note">Pressing Send opens your email app with all your answers filled in, addressed to us. Just press send in there too.</p>
+    <p class="note">Your pack will come by email from our mail box, treasuretrovescan.noreply@gmail.com. Need help after it lands? Write to that same address — our team reads it.</p>
+    <p class="note">No email app popped up when you pressed Send? Then just email your answers to treasuretrovescan.noreply@gmail.com yourself. That works too.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="screen hidden" id="screen-faq">
+  <h1 class="ptitle">Questions &amp; Answers</h1>
+  <div class="card narrow">
+    <h2>Do you support private groups?</h2>
+    <p><strong>No. We do not support private groups.</strong></p>
+    <p>Here is why. A private group is locked. If you are not a member, you can not see the posts — and you can not see the group rules. Our team will not join your groups as a fake member, will not use bots, and will <strong>never</strong> ask for your Facebook password or log in as you. Facebook bans accounts for that kind of watching, and we will not put your account — or ours — at risk.</p>
+    <p>In a public group, or a group where posts and rules can be seen, we can do the full job: read the rules, make your Rule Card, and score the buyer posts you paste in.</p>
+    <p>Got one private group you love? You can still paste its posts into the app by hand and get scores. We just can not read its rules or watch it for you — for a Rule Card there, send us a picture of the group's rules page and we will make the card from that.</p>
+    <p><strong>And we can still write your selling posts for a private group.</strong> Email us your coin photos and your price. We email back the full post — the words, the hashtags, the emojis, all of it. You just copy it and paste it into your group yourself. It takes one minute, and we show you how right below.</p>
+    <h2>How do I copy and paste?</h2>
+    <p><strong>On an Android phone:</strong> Press and hold your finger on the words in our email. Tap <strong>Copy</strong>. Go to your group. Press and hold in the post box. Tap <strong>Paste</strong>. Done.</p>
+    <p><strong>On an iPhone:</strong> Press and hold on the words. Tap <strong>Copy</strong>. Go to your group. Press and hold in the post box. Tap <strong>Paste</strong>. Done.</p>
+    <p><strong>On a tablet:</strong> Same as a phone. Hold your finger on the words, tap Copy. Hold in the post box, tap Paste.</p>
+    <p><strong>On a computer:</strong> Drag your mouse over the words to light them up. Press <strong>Ctrl + C</strong> (on a Mac, <strong>Cmd + C</strong>) to copy. Click in the post box and press <strong>Ctrl + V</strong> (Mac: <strong>Cmd + V</strong>) to paste.</p>
+    <h2>Do I have to give you my Facebook password?</h2>
+    <p><strong>Never.</strong> Not for setup, not for anything. If anyone ever asks for it, it is not us.</p>
+    <h2>So how does the watching work?</h2>
+    <p>You paste posts from your groups into the app. Our system scores each post in seconds and stacks the hot buyers on top. Your groups, your phone, your control.</p>
+    <h2>How do I get my setup?</h2>
+    <p>Fill in the Setup Form. Your pack comes by email from our no-reply mail box, with your Rule Cards and photo tips. Do not reply to that email — no one sees replies there. Need help? Use the Contact page.</p>
+    <h2>Where does my info live?</h2>
+    <p>On YOUR phone or computer. Your account and lists are saved in your web browser, on your device. Not on our computers.</p>
+    <h2>What does it cost?</h2>
+    <p>Joining and using the tools is free while we test. Setup help is $100 one time, only if you want it. We talk by email first — you pay after we talk.</p>
+    <h2>What if you can't set me up?</h2>
+    <p>Then you do not pay. Paid already and we fail? Full refund.</p>
+    <h2>Will this get my Facebook account in trouble?</h2>
+    <p>No. There are no bots watching groups and no fake accounts. You paste posts yourself, like copying a note. That is safe.</p>
+    <button class="cta small" data-go="contact">Ask a Question</button>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="screen hidden" id="screen-contact">
+  <h1 class="ptitle">Contact Us</h1>
+  <div class="card narrow">
+    <p>A real person reads these. Not a robot ticket box.</p>
+    <p>Email:</p>
+    <p class="bigline emailline">treasuretrovescan.noreply@gmail.com</p>
+    <p>Call or text:</p>
+    <p class="bigline">(405) 458-0671</p>
+    <form id="contactForm">
+      <label>Your name <input required name="name"></label>
+      <label>Your email <input required name="email" type="email"></label>
+      <label>Your message <textarea required name="message" rows="4" placeholder="What do you sell? What groups are you in?"></textarea></label>
+      <button class="cta small" type="submit">Send</button>
+      <p id="contactMsg" class="msg"></p>
+    </form>
+  </div>
+</section>
+
+<p class="fineprint-static">Treasure Trove Scan — Sell it while it's hot. Fair both ways.<br>Treasure Trove Scan is our own app. It is not part of Facebook or Meta, and Facebook does not sponsor or endorse it. We just use blue because our sellers live in Facebook groups and blue feels like home.</p>
+
+<script src="app.js"></script>
+</body>
+</html>
