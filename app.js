@@ -178,16 +178,37 @@ $('#buildWinner').onclick = ()=>{
   $('#winnerOut').textContent = `You won the ${$('#bItem').value||'item'} at $${price.toFixed(2)}!\n\nYour total:\nCashApp / Venmo: $${total.toFixed(2)} ($${price.toFixed(2)} + $${ship.toFixed(2)} shipping)\nPayPal Goods & Services: $${pp} (fee added)\n\nSend pay and your mailing address. I will pack it well and send tracking. Thank you!`;
 };
 $('#copyWinner').onclick = ()=>{ navigator.clipboard && navigator.clipboard.writeText($('#winnerOut').textContent) };
+// Form-to-email delivery (Web3Forms, free plan). The access key is public by
+// design — it is an alias for the team mailbox, not a password.
+const W3F_KEY = 'a55133f6-5ab6-41f9-bb5b-322086300e54';
+async function sendToTeam(payload){
+  try{
+    const r = await fetch('https://api.web3forms.com/submit', {method:'POST', headers:{'Content-Type':'application/json', 'Accept':'application/json'}, body: JSON.stringify(Object.assign({access_key: W3F_KEY}, payload))});
+    const d = await r.json().catch(()=>({}));
+    return !!(d && (d.success === true || d.success === 'true'));
+  }catch(e){ return false; }
+}
 const sf = $('#setupForm');
-if(sf) sf.onsubmit = e=>{
+if(sf) sf.onsubmit = async e=>{
   e.preventDefault(); const f=new FormData(e.target);
+  const btn = e.target.querySelector('button[type="submit"]');
+  if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+  $('#setupMsg').textContent = 'Sending your answers to our team…';
   const lines = ['SETUP FORM — Treasure Trove Scan','',
     'Name: '+f.get('name'),'Email: '+f.get('email'),'Business: '+f.get('business'),
     'What they sell: '+f.get('niche'),'','Groups:',''+f.get('groups'),'',
     'Pay apps: '+f.get('payapps'),'Shipping: '+f.get('shipping'),'','Group rules notes:',''+(f.get('grouprules')||''),'',
     'Main items:',''+f.get('items'),'','Alerts: '+f.get('alerts')];
-  window.location.href = `mailto:treasuretrovescan.noreply@gmail.com?subject=${encodeURIComponent('SETUP FORM — '+f.get('business'))}&body=${encodeURIComponent(lines.join('\n'))}`;
-  $('#setupMsg').textContent = 'Opening your email app. Your answers are filled in — just press send in there.';
+  const ok = await sendToTeam({
+    subject: 'SETUP FORM — '+f.get('business'), from_name: 'TreasureTroveScan Website',
+    name: f.get('name'), email: f.get('email'), business: f.get('business'),
+    what_they_sell: f.get('niche'), groups: f.get('groups'), pay_apps: f.get('payapps'),
+    shipping: f.get('shipping'), group_rules_notes: f.get('grouprules')||'',
+    main_items: f.get('items')||'', alerts: f.get('alerts'), message: lines.join('\n')
+  });
+  if(btn){ btn.disabled = false; btn.textContent = 'Send My Answers'; }
+  if(ok){ e.target.reset(); $('#setupMsg').textContent = 'Got it! Your answers are with our team. Watch your email — your pack comes from treasuretrovescan.noreply@gmail.com. Now do Step 2: email us your coin photos.'; }
+  else { $('#setupMsg').textContent = 'That did not send. Please try once more — or email your answers to treasuretrovescan.noreply@gmail.com yourself. That works too.'; }
 };
 $('#importPack').onclick = ()=>{
   const file = $('#packFile').files[0];
@@ -208,11 +229,18 @@ $('#exportPack').onclick = ()=>{
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(pack,null,2)],{type:'application/json'})); a.download = 'my-setup-pack.json'; a.click();
 };
 const cf = $('#contactForm');
-if(cf) cf.onsubmit = e=>{
+if(cf) cf.onsubmit = async e=>{
   e.preventDefault(); const f=new FormData(e.target);
-  const body = encodeURIComponent(`From: ${f.get('name')} <${f.get('email')}>\n\n${f.get('message')}`);
-  window.location.href = `mailto:treasuretrovescan.noreply@gmail.com?subject=${encodeURIComponent('Treasure Trove Scan — contact')}&body=${body}`;
-  $('#contactMsg').textContent = 'Opening your email app. Your note is ready to send.';
+  const btn = e.target.querySelector('button[type="submit"]');
+  if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+  $('#contactMsg').textContent = 'Sending your note to our team…';
+  const ok = await sendToTeam({
+    subject: 'Treasure Trove Scan — contact', from_name: 'TreasureTroveScan Website',
+    name: f.get('name'), email: f.get('email'), message: f.get('message')
+  });
+  if(btn){ btn.disabled = false; btn.textContent = 'Send'; }
+  if(ok){ e.target.reset(); $('#contactMsg').textContent = 'Got it! Our team reads these and will write back to your email.'; }
+  else { $('#contactMsg').textContent = 'That did not send. Please try once more — or email us at treasuretrovescan.noreply@gmail.com yourself.'; }
 };
 if(me){ $('#loginNavBtn').textContent='My App'; render(); go('app'); } else { go('home'); }
 
