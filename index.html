@@ -154,9 +154,14 @@
   <div class="toolpanel hidden" id="tool-calc">
     <div class="card">
       <h2>Price Tool — never sell too cheap</h2>
-      <p>Fill in the boxes. We do the math.</p>
+      <p>Fill in the boxes. We look up live spot for you. We do the math.</p>
       <label>How many troy ounces? <input id="calcOz" type="number" step="0.01" value="1"></label>
-      <label>Spot price (per ounce) <input id="calcSpot" type="number" step="0.01" placeholder="Like: 53.50"></label>
+      <label>What metal?
+        <select id="calcMetal"><option value="XAG" selected>Silver</option><option value="XAU">Gold</option><option value="XPT">Platinum</option><option value="XPD">Palladium</option></select>
+      </label>
+      <label>Spot price (per ounce) — live lookup <input id="calcSpot" type="number" step="0.01" placeholder="Looking up live spot…" readonly></label>
+      <p class="note" id="spotStatus">Getting the live spot price…</p>
+      <button id="spotRefresh" class="cta small" type="button">↻ Update Spot</button>
       <label>Extra you want to earn (%) <input id="calcPrem" type="number" step="0.5" value="10"></label>
       <label>Card fee (%) <input id="calcFee" type="number" step="0.1" value="3.5"></label>
       <label>Shipping you charge ($) <input id="calcShip" type="number" step="0.50" value="8"></label>

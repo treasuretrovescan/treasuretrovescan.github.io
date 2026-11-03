@@ -129,12 +129,35 @@ $('#seedBtn').onclick = ()=>{
   for(const [text,c,r] of samples){ const {score,hits}=scorePost(text,c,r,d.keywords); d.posts.unshift({source:d.groups[0].name, text, comments:c, reactions:r, score, hits, date:new Date().toLocaleString()}) }
   saveData(all); render();
 };
+// Live spot lookup for the Price Tool (same free gold-api.com feed as the ticker)
+async function loadCalcSpot(){
+  const spotEl = $('#calcSpot'), st = $('#spotStatus'); if(!spotEl) return;
+  const sym = ($('#calcMetal') && $('#calcMetal').value) || 'XAG';
+  st.textContent = 'Getting the live spot price…';
+  try{
+    const r = await fetch('https://api.gold-api.com/price/' + sym);
+    const d = await r.json();
+    const p = Number(d.price);
+    if(!p) throw new Error('no price');
+    spotEl.value = p.toFixed(2);
+    spotEl.readOnly = true;
+    st.textContent = `Live spot: $${p.toFixed(2)} per ounce • updated ${new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
+  }catch(e){
+    spotEl.readOnly = false;
+    spotEl.placeholder = 'Like: 53.50';
+    st.textContent = 'Live lookup did not work just now — type the spot price in the box.';
+  }
+}
+const cm = $('#calcMetal'); if(cm) cm.onchange = loadCalcSpot;
+const sr = $('#spotRefresh'); if(sr) sr.onclick = loadCalcSpot;
+loadCalcSpot();
+
 $('#calcBtn').onclick = ()=>{
   const oz=parseFloat($('#calcOz').value)||0, spot=parseFloat($('#calcSpot').value)||0;
   const prem=parseFloat($('#calcPrem').value)||0, fee=parseFloat($('#calcFee').value)||0, ship=parseFloat($('#calcShip').value)||0;
   const melt = oz*spot; const target = melt*(1+prem/100);
   const list = Math.ceil((target/(1-fee/100))*2)/2;
-  $('#calcOut').textContent = `Melt price: $${melt.toFixed(2)}\nYou want (melt + ${prem}%): $${target.toFixed(2)}\nList it at: $${list.toFixed(2)} plus $${ship.toFixed(2)} shipping\nAfter the ${fee}% fee you keep about $${(list*(1-fee/100)).toFixed(2)}. That is above melt. Fair for them. Fair for you.`;
+  $('#calcOut').textContent = `Spot used: $${spot.toFixed(2)} per ounce${$('#calcSpot').readOnly ? ' (live)' : ''}\nMelt price: $${melt.toFixed(2)}\nYou want (melt + ${prem}%): $${target.toFixed(2)}\nList it at: $${list.toFixed(2)} plus $${ship.toFixed(2)} shipping\nAfter the ${fee}% fee you keep about $${(list*(1-fee/100)).toFixed(2)}. That is above melt. Fair for them. Fair for you.`;
 };
 
 function makeTags(item){
