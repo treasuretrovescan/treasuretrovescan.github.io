@@ -177,6 +177,17 @@
       <img id="bPhotoPreview" class="photopreview hidden" alt="Your coin photo">
       <p class="note">Your photo stays on your phone. Want our team to write the post FROM your photos? Email the photos and your price to treasuretrovescan.noreply@gmail.com — we send back a ready-to-post write-up, hashtags and all.</p>
       <label>What are you selling? <input id="bItem" placeholder="Like: 2023 Silver Libertad, 1 ounce"></label>
+      <p class="note">Too hard to type? Tap one — then add the year if you want:</p>
+      <div class="chips" id="itemChips">
+        <button type="button" class="chip" data-item="American Silver Eagle, 1 ounce">🦅 Silver Eagle</button>
+        <button type="button" class="chip" data-item="Morgan Silver Dollar">Morgan Dollar</button>
+        <button type="button" class="chip" data-item="Peace Silver Dollar">Peace Dollar</button>
+        <button type="button" class="chip" data-item="Silver Libertad, 1 ounce">Libertad</button>
+        <button type="button" class="chip" data-item="1 oz Silver Bar">1 oz Silver Bar</button>
+        <button type="button" class="chip" data-item="10 oz Silver Bar">10 oz Silver Bar</button>
+        <button type="button" class="chip" data-item="1 oz Silver Round">Silver Round</button>
+        <button type="button" class="chip" data-item="Gold Coin">Gold Coin</button>
+      </div>
       <label>Price ($) <input id="bPrice" type="number" step="1"></label>
       <label>When does it end? <input id="bTerms" placeholder="Like: Ends in 24 hours"></label>
       <button id="buildListing" class="cta small">Make My Post</button>

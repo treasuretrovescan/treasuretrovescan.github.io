@@ -234,4 +234,18 @@ async function loadTicker(){
 loadTicker(); setInterval(loadTicker, 60000);
 
 const bp = document.getElementById('bPhoto');
-if(bp) bp.onchange = ()=>{ const f = bp.files[0]; if(!f) return; const img = document.getElementById('bPhotoPreview'); img.src = URL.createObjectURL(f); img.classList.remove('hidden'); };
+if(bp) bp.onchange = ()=>{ const f = bp.files[0]; if(!f) return; const img = document.getElementById('bPhotoPreview'); img.src = URL.createObjectURL(f); img.classList.remove('hidden');
+  // If the photo's file name says what it is (like "2023-silver-libertad.jpg"), start the "What are you selling?" box with it.
+  const itemEl = document.getElementById('bItem');
+  if(itemEl && !itemEl.value){
+    const junk = /^(img|pxl|dsc|screenshot|whatsapp|image|photo|pxl|mvimg|received|fb|mmexport)/i;
+    const words = f.name.replace(/\.[a-z0-9]+$/i,'').split(/[-_\s]+/).filter(w=>w && !junk.test(w) && !/^\d+$/.test(w));
+    const guess = words.map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ').trim();
+    if(guess.length >= 5) itemEl.value = guess;
+  }
+};
+
+// Tap-to-fill item chips (no typing needed)
+document.querySelectorAll('#itemChips .chip').forEach(ch=>{
+  ch.onclick = ()=>{ const el = document.getElementById('bItem'); if(el){ el.value = ch.dataset.item; el.focus(); } };
+});
