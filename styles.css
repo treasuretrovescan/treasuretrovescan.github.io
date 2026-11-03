@@ -49,6 +49,10 @@ textarea{font-family:inherit}
 .msg{color:var(--green);font-weight:700;min-height:1.2em}
 .note{color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.steps{display:grid;gap:10px;text-align:left}
+.step{display:flex;gap:12px;align-items:flex-start;background:#eef4fe;border:2px solid #b9cff7;border-radius:14px;padding:12px 14px}
+.stepnum{background:#1a6fd4;color:#fff;font-weight:900;font-size:22px;min-width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.step p{margin:4px 0}
 .chip{background:#e3ecfd;color:#0d47a1;border:2px solid #b9cff7;font-weight:700;font-size:17px;padding:10px 16px;border-radius:999px;cursor:pointer;min-height:48px}
 .chip:active{background:#1a6fd4;color:#fff}
 .who{text-align:right;font-weight:700}
